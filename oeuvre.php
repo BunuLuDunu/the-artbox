@@ -1,3 +1,37 @@
+<?php
+    require_once(__DIR__ . '/oeuvres.php');
+
+    if (
+        // Verification de la présence de l'id dans l'URL
+        !isset($_GET['id'])
+        // Vérification que l'id a bien une valeur
+        || empty($_GET['id'])
+    ) {
+        echo('Veuillez renseigner un id pour accéder à cette page');
+        return;
+    }
+
+    $oeuvre = [];
+
+    // Parcours du tableau pour retouver l'oeuvre correspondante à l'id présente dans l'URL
+    foreach($oeuvres as $item) {
+        if($item['id'] == $_GET['id']) {
+            $oeuvre = $item;
+            break;
+        }
+    }
+
+    // var_dump($oeuvre);
+
+    if(
+        // La variable oeuvre contient-elle des informations
+        empty($oeuvre)
+    ) {
+        echo('Cet id ne correspond à aucune oeuvre');
+        return;
+    }
+?>
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -15,13 +49,12 @@
 <main>
     <article id="detail-oeuvre">
         <div id="img-oeuvre">
-            <img src="img/clark-van-der-beken.png" alt="Dodomu">
+            <img src="<?php echo $oeuvre['image']['src'];?>" alt="<?php echo $oeuvre['image']['alt']; ?>">
         </div>
         <div id="contenu-oeuvre">
-            <h1>Dodomu</h1>
-            <p class="description">Mia Tozerski</p>
-            <p class="description-complete">
-                Mia Tozerski est une artiste peintre ukrainienne réfugiée de la guerre. Sur cette œuvre, Dodomu ("domicile" en ukrainien), elle nous montre la tristesse du peuple ukrainien qu'elle partage, ayant elle-même dû quitter son foyer. L'œuvre évoque le drapeau liquéfié d'une Ukraine en souffrance, pleurant la mort de ses compatriotes. Ce travail chargé d'émotion est le symbole d'un événement qui marquera l'Histoire. Cette peinture à l'acrylique rayonne grâce à son fond lisse et ses mélanges de couleurs éclatantes.
+            <h1><?php echo $oeuvre['title']; ?></h1>
+            <p class="description"><?php echo $oeuvre['artist']; ?></p>
+            <p class="description-complete"><?php echo $oeuvre['description']; ?>
             </p>
         </div>
     </article>
