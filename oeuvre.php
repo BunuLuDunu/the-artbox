@@ -21,8 +21,6 @@
         }
     }
 
-    // var_dump($oeuvre);
-
     if(
         // La variable oeuvre contient-elle des informations
         empty($oeuvre)
